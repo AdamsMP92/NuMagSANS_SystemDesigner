@@ -13,46 +13,40 @@ except ImportError:
 SC_SPHERE_CRYSTAL_TEMPLATE = "sc_sphere_crystal"
 
 
-def gaussian_spherical_nanoparticle_base(
-    R_mean,
-    R_std,
+def write_monodisperse_spherical_nanoparticle_base(
+    R,
     a,
     atomtype,
-    name="Gaussian spherical nanoparticle base",
+    n_objects,
+    output_dir,
+    name="Monodisperse spherical nanoparticle base",
 ):
-    """Create an assembly base for spherical nanoparticles with Gaussian radii.
+    """Generate and store a monodisperse spherical nanoparticle object base.
 
-    This template defines only the object-level crystal-template parameters. It
-    does not generate object centers, rotations, or a StructData.csv file.
-
-    Parameters
-    ----------
-    R_mean : float
-        Mean particle radius.
-    R_std : float
-        Standard deviation of the particle radius.
-    a : float
-        Lattice constant passed to the spherical crystal template.
-    atomtype : object
-        Free-form atom label, for example ``"Fe"``.
-    name : str, optional
-        Human-readable name stored in the assembly base.
-
-    Returns
-    -------
-    dict
-        Assembly base dictionary for the ``sc_sphere_crystal`` template.
+    This is the high-level template entry point. It hides the underlying
+    ``sc_sphere_crystal`` template name from examples and user scripts.
     """
-    return assembly_base(
+
+    assembly_base_data = assembly_base(
         ct_temps=SC_SPHERE_CRYSTAL_TEMPLATE,
         ct_temps_params=["a", "R", "atomtype"],
         param_dist_props={
             "a": constant(a),
-            "R": normal(mean=R_mean, sigma=R_std),
+            "R": constant(R),
             "atomtype": constant(atomtype),
         },
         name=name,
     )
+
+    return write_assembly_base_objects(
+        assembly_base_data,
+        template_name=SC_SPHERE_CRYSTAL_TEMPLATE,
+        n_objects=n_objects,
+        output_dir=output_dir,
+        seed=None,
+    )
+
+
 
 
 def write_gaussian_spherical_nanoparticle_base(
@@ -70,14 +64,20 @@ def write_gaussian_spherical_nanoparticle_base(
     This is the high-level template entry point. It hides the underlying
     ``sc_sphere_crystal`` template name from examples and user scripts.
     """
+
+    assembly_base_data = assembly_base(
+        ct_temps=SC_SPHERE_CRYSTAL_TEMPLATE,
+        ct_temps_params=["a", "R", "atomtype"],
+        param_dist_props={
+            "a": constant(a),
+            "R": normal(mean=R_mean, sigma=R_std),
+            "atomtype": constant(atomtype),
+        },
+        name=name,
+    )
+
     return write_assembly_base_objects(
-        assembly_base_data=gaussian_spherical_nanoparticle_base(
-            R_mean=R_mean,
-            R_std=R_std,
-            a=a,
-            atomtype=atomtype,
-            name=name,
-        ),
+        assembly_base_data,
         template_name=SC_SPHERE_CRYSTAL_TEMPLATE,
         n_objects=n_objects,
         output_dir=output_dir,
