@@ -6,11 +6,11 @@ from AssemblyBasePlot import (
     plot_parameter_distributions,
 )
 from AssemblyBaseTemplates import (
-    write_monodisperse_spherical_nanoparticle_base,
+    write_gaussian_spherical_nanoparticle_base,
 )
 
 
-# Example 1:
+# Example 2:
 # Generate a dilute object set made from spherical Fe nanoparticle templates.
 #
 # This example only creates the local object geometries:
@@ -25,16 +25,18 @@ from AssemblyBaseTemplates import (
 # from the Object_i/meta.csv files and plotted.
 
 
-OUTPUT_DIR = "AssemblyExample1"
+OUTPUT_DIR = "AssemblyExample2"
 
-# Generate a dilute ensemble of spherical nanoparticles with a monodisperse
+# Generate a dilute ensemble of spherical nanoparticles with a Gaussian
 # distribution of radii.
-summary = write_monodisperse_spherical_nanoparticle_base(
-    R=10.0,
+summary = write_gaussian_spherical_nanoparticle_base(
+    R_mean=10.0,
+    R_std=3.0,
     a=1.0,
     atomtype="Fe",
     n_objects=500,
     output_dir=OUTPUT_DIR,
+    seed=123,
     name="dilute spherical Fe nanoparticles",
 )
 
