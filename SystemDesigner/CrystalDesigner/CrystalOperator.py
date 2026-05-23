@@ -96,6 +96,92 @@ def crystal_centering(crystal, inplace=False):
     return centered
 
 
+def rotation_matrix_zyz(alpha, beta, gamma):
+    """Return the active Z-Y-Z rotation matrix.
+
+    The convention is
+
+        R = Rz(alpha) @ Ry(beta) @ Rz(gamma)
+
+    and the returned matrix acts on column vectors ``[x, y, z]``.
+    Angles are given in radians.
+    """
+    ca = np.cos(alpha)
+    sa = np.sin(alpha)
+    cb = np.cos(beta)
+    sb = np.sin(beta)
+    cg = np.cos(gamma)
+    sg = np.sin(gamma)
+
+    rz_alpha = np.array([
+        [ca, -sa, 0.0],
+        [sa, ca, 0.0],
+        [0.0, 0.0, 1.0],
+    ])
+    ry_beta = np.array([
+        [cb, 0.0, sb],
+        [0.0, 1.0, 0.0],
+        [-sb, 0.0, cb],
+    ])
+    rz_gamma = np.array([
+        [cg, -sg, 0.0],
+        [sg, cg, 0.0],
+        [0.0, 0.0, 1.0],
+    ])
+
+    return rz_alpha @ ry_beta @ rz_gamma
+
+
+def crystal_rotator_zyz(x, y, z, alpha, beta, gamma):
+    """Rotate coordinate arrays with a Z-Y-Z Euler rotation.
+
+    Parameters
+    ----------
+    x, y, z : array-like
+        Coordinate arrays with matching shape.
+    alpha, beta, gamma : float
+        Rotation angles in radians. The convention is
+        ``Rz(alpha) @ Ry(beta) @ Rz(gamma)``.
+
+    Returns
+    -------
+    tuple of numpy.ndarray
+        Rotated ``x``, ``y``, and ``z`` arrays.
+    """
+    x = np.asarray(x)
+    y = np.asarray(y)
+    z = np.asarray(z)
+
+    if not (x.shape == y.shape == z.shape):
+        raise ValueError("x, y, and z must have matching shapes.")
+
+    positions = np.vstack((x.ravel(), y.ravel(), z.ravel()))
+    rotated_positions = rotation_matrix_zyz(alpha, beta, gamma) @ positions
+
+    return (
+        rotated_positions[0].reshape(x.shape),
+        rotated_positions[1].reshape(y.shape),
+        rotated_positions[2].reshape(z.shape),
+    )
+
+
+def crystal_rotate_zyz(crystal, alpha, beta, gamma, inplace=False):
+    """Rotate a crystal dictionary with a Z-Y-Z Euler rotation."""
+    _validate_coordinates(crystal)
+
+    target = crystal if inplace else _copy_crystal(crystal)
+    target["x"], target["y"], target["z"] = crystal_rotator_zyz(
+        target["x"],
+        target["y"],
+        target["z"],
+        alpha,
+        beta,
+        gamma,
+    )
+
+    return target
+
+
 def implicit_crystal_operator(crystal, operator, operator_params=None, inplace=False):
     """Filter a crystal with an implicit inequality.
 
