@@ -2,8 +2,12 @@ try:
     from .AssemblyBase import assembly_base, constant, normal
     from .AssemblyBaseWriter import write_assembly_base_objects
 except ImportError:
-    from SystemDesigner.AssemblyBaseDesigner.AssemblyBase import assembly_base, constant, normal
-    from SystemDesigner.AssemblyBaseDesigner.AssemblyBaseWriter import write_assembly_base_objects
+    try:
+        from SystemDesigner.AssemblyBaseDesigner.AssemblyBase import assembly_base, constant, normal
+        from SystemDesigner.AssemblyBaseDesigner.AssemblyBaseWriter import write_assembly_base_objects
+    except ImportError:
+        from AssemblyBase import assembly_base, constant, normal
+        from AssemblyBaseWriter import write_assembly_base_objects
 
 
 SC_SPHERE_CRYSTAL_TEMPLATE = "sc_sphere_crystal"
