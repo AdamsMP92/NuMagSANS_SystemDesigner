@@ -79,7 +79,9 @@ SystemDesigner/
         CrystalOperator.py
         CrystalTemplates.py
         CrystalPlot.py
-        Example1.py
+        Examples/
+            Example1.py
+            Example2.py
 
     AssemblyBaseDesigner/
         AssemblyBase.py
@@ -87,7 +89,8 @@ SystemDesigner/
         AssemblyBaseWriter.py
         AssemblyBaseAnalyzer.py
         AssemblyBasePlot.py
-        Example1.py
+        Examples/
+            Example1.py
 
     AssemblyBaseStructurizer/
     AssemblyBaseMagnetizer/
@@ -101,15 +104,17 @@ The code currently expects a Python environment with at least:
 - `numpy`
 - `matplotlib`
 
-The project does not yet include its own `pixi.toml` or `pyproject.toml`.
-During development, tests were run with an external Pixi Python environment.
+No package installation is required during development. Run examples from the
+repository root with Python's module mode (`python -m ...`). This keeps the
+examples in their corresponding designer folders while preserving clean package
+imports.
 
 ## Quick Start
 
 Run the AssemblyBaseDesigner example:
 
 ```bash
-python SystemDesigner/AssemblyBaseDesigner/Example1.py
+python -m SystemDesigner.AssemblyBaseDesigner.Examples.Example1
 ```
 
 This generates a dilute local object base of spherical Fe nanoparticles with a
@@ -142,10 +147,16 @@ write_gaussian_spherical_nanoparticle_base(
 The crystal example builds a simple-cubic Fe sphere and plots it:
 
 ```bash
-python SystemDesigner/CrystalDesigner/Example1.py
+python -m SystemDesigner.CrystalDesigner.Examples.Example1
 ```
 
 This example opens a Matplotlib window via `plt.show()`.
+
+The cylindrical crystal-cut example can be run with:
+
+```bash
+python -m SystemDesigner.CrystalDesigner.Examples.Example2
+```
 
 ## Data Model
 

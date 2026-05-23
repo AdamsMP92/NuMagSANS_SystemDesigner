@@ -1,0 +1,54 @@
+# macOS / editor metadata
+.DS_Store
+._*
+.vscode/
+.idea/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments and local environment files
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Build and packaging artifacts
+build/
+dist/
+*.egg-info/
+
+# Jupyter / notebook checkpoints
+.ipynb_checkpoints/
+
+# Matplotlib and runtime caches
+.matplotlib/
+.cache/
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# Generated example / materialized system data
+AssemblyExample*/
+RealSpaceData/
+MagData/
+NuclearData/
+StructData.csv
+parameter_table.csv
+parameter_distributions.png
