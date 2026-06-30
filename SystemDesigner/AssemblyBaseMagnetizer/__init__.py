@@ -1,5 +1,6 @@
 """Magnetization tools for materialized assembly-base objects."""
 
+from .AssemblyBaseMagnetizer import write_spherical_magnetization_data
 from .MagnetizationBase import magnetization_base, sample_field_params
 from .MagnetizationBaseTemplates import (
     spherical_random_chirality_vortex_magnetization_base,
